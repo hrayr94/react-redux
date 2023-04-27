@@ -1,23 +1,26 @@
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+import { useSelector, useDispatch } from "react-redux";
+import { editName, loadUser, selectName } from "./features/currentUser/currentUserSlice";
+import { useEffect } from "react";
 
 function App() {
+  
+  const name = useSelector(selectName);
+  const dispatch = useDispatch();
+
+  useEffect(()=> {
+    dispatch(loadUser());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  },[]);
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <h1>{name}</h1>
+      <input type="text" value={name}
+        onChange={(evt) => {
+          dispatch(editName(evt.target.value));
+        }}
+      />
     </div>
   );
 }
